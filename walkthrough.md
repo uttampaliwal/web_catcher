@@ -4,7 +4,7 @@ Welcome to **Web Catcher**! This tool is designed to help you "capture" data fro
 
 ---
 
-## 🛠 1. Quick Start (The "Noob" Guide)
+## 🛠 1. Quick Start (The "starter" Guide)
 
 If you just want to get it running as fast as possible, follow these steps:
 

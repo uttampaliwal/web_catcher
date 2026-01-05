@@ -13,7 +13,7 @@ class WebExtractor(BaseExtractor):
         # Let's use metadata extraction too.
         
         metadata_raw = trafilatura.extract_metadata(downloaded)
-        content = trafilatura.extract(downloaded, include_comments=False, include_tables=True)
+        content = trafilatura.extract(downloaded, include_comments=False, include_tables=True, favor_recall=True)
         
         metadata = Metadata(
             title=metadata_raw.title if metadata_raw else None,
