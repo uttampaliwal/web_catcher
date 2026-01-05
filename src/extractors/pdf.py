@@ -49,14 +49,25 @@ class PDFExtractor(BaseExtractor):
                     ))
 
             # 2. Extract Text Blocks
-            blocks = page.get_text("blocks")
+            # sort=True helps with multi-column reading order
+            blocks = page.get_text("blocks", sort=True)
             for b in blocks:
                 # b = (x0, y0, x1, y1, "text", block_no, block_type)
-                text = b[4].strip()
-                if text:
+                raw_text = b[4].strip()
+                if raw_text:
+                    # Basic cleanup
+                    # 1. De-hyphenate: "leader-\nship" -> "leadership"
+                    cleaned_text = raw_text.replace("-\n", "")
+                    
+                    # 2. Merge lines: replace remaining newlines with space
+                    cleaned_text = cleaned_text.replace("\n", " ")
+                    
+                    # 3. Collapse multiple spaces
+                    cleaned_text = " ".join(cleaned_text.split())
+
                     segments.append(Segment(
                         type="text", 
-                        content=text,
+                        content=cleaned_text,
                         metadata={"page": str(page_num + 1), "block_no": str(b[5])}
                     ))
             

@@ -3,6 +3,7 @@ import argparse
 import json
 from src.extractors.web import WebExtractor
 from src.extractors.wikipedia_extractor import WikipediaExtractor
+from src.extractors.stackoverflow import StackOverflowExtractor
 from src.extractors.pdf import PDFExtractor
 from src.extractors.grokipedia import GrokipediaExtractor
 from src.config import Config
@@ -10,7 +11,7 @@ from src.config import Config
 def main():
     parser = argparse.ArgumentParser(description="Web Catcher: Multi-Data Extraction Tool")
     parser.add_argument("source", help="URL or path to PDF file")
-    parser.add_argument("--type", choices=["web", "wiki", "pdf", "auto"], default="auto", help="Source type")
+    parser.add_argument("--type", choices=["web", "wiki", "stackoverflow", "pdf", "auto"], default="auto", help="Source type")
     parser.add_argument("--output", help="Output file path (default: stdout)")
     parser.add_argument("--config", help="Path to config yaml file")
     
@@ -24,6 +25,8 @@ def main():
             source_type = "pdf"
         elif "wikipedia.org" in args.source:
             source_type = "wiki"
+        elif "stackoverflow.com" in args.source:
+            source_type = "stackoverflow"
         elif "grokipedia.com" in args.source:
             source_type = "grokipedia"
         else:
@@ -34,6 +37,8 @@ def main():
             extractor = WebExtractor(config)
         elif source_type == "wiki":
             extractor = WikipediaExtractor(config)
+        elif source_type == "stackoverflow":
+            extractor = StackOverflowExtractor(config)
         elif source_type == "grokipedia":
             extractor = GrokipediaExtractor(config)
         else:
