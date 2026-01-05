@@ -1,8 +1,15 @@
 import trafilatura
 from src.extractors.base import BaseExtractor
 from src.models import Document, Segment, Metadata
+import logging
+
+logger = logging.getLogger(__name__)
 
 class WebExtractor(BaseExtractor):
+    def __init__(self, config=None):
+        from src.config import Config
+        self.config = config or Config()
+
     def extract(self, url: str) -> Document:
         downloaded = trafilatura.fetch_url(url)
         if not downloaded:
@@ -13,7 +20,12 @@ class WebExtractor(BaseExtractor):
         # Let's use metadata extraction too.
         
         metadata_raw = trafilatura.extract_metadata(downloaded)
-        content = trafilatura.extract(downloaded, include_comments=False, include_tables=True, favor_recall=True)
+        content = trafilatura.extract(
+            downloaded, 
+            include_comments=self.config.get("web.include_comments", False), 
+            include_tables=self.config.get("web.include_tables", True), 
+            favor_recall=self.config.get("web.favor_recall", True)
+        )
         
         metadata = Metadata(
             title=metadata_raw.title if metadata_raw else None,

@@ -22,7 +22,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # 4. Install requirements
-pip install trafilatura wikipedia-api pymupdf pydantic requests pillow
+pip install -r requirements.txt
 ```
 
 ### Your Very First Extraction
@@ -44,6 +44,7 @@ The core script is `src/main.py`. Here is how to master its parameters.
 | `source` | The URL, Wikipedia title, or local Path to a PDF. | **Yes** |
 | `--type` | Force a type: `web`, `wiki`, `pdf`. Default is `auto`. | No |
 | `--output` | Save results to a file. If omitted, prints to terminal. | No |
+| `--config` | Path to a custom `config.yaml` file. | No |
 
 ---
 
@@ -111,6 +112,10 @@ Every output follows this exact Pydantic-validated JSON schema:
   ```bash
   python3 src/main.py "Machine Learning" --type wiki | jq .metadata
   ```
+- **Custom Config**: Create a `config.yaml` to override default behaviors like Wikipedia language or PDF image extraction.
+  ```bash
+  python3 src/main.py "data/report.pdf" --config my_config.yaml
+  ```
 - **Batch Processing**: Use a simple bash loop to process multiple URLs:
   ```bash
   for url in $(cat urls.txt); do python3 src/main.py "$url" --output "data/$(basename $url).json"; done
@@ -118,10 +123,22 @@ Every output follows this exact Pydantic-validated JSON schema:
 
 ---
 
-## 🧪 6. Verification & Troubleshooting
+## 🧪 6. Testing & Development
 
-If something isn't working:
-1. Ensure your `PYTHONPATH` includes the `src` directory if you run from outside:
-   `export PYTHONPATH=$PYTHONPATH:.`
-2. Check your internet connection (needed for `web` and `wiki`).
-3. For PDFs, ensure `PyMuPDF` is installed (`pip install pymupdf`).
+We maintain a high-quality codebase with comprehensive unit and integration tests.
+
+### Running Tests
+To run the entire test suite:
+```bash
+pytest
+```
+
+To run with coverage (if installed):
+```bash
+pytest --cov=src
+```
+
+### Adding New Extractors
+1. Create a new class in `src/extractors/` inheriting from `BaseExtractor`.
+2. Register it in `src/main.py`.
+3. Add corresponding tests in `tests/test_your_extractor.py`.

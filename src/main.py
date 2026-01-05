@@ -4,14 +4,17 @@ import json
 from src.extractors.web import WebExtractor
 from src.extractors.wiki import WikiExtractor
 from src.extractors.pdf import PDFExtractor
+from src.config import Config
 
 def main():
     parser = argparse.ArgumentParser(description="Web Catcher: Multi-Data Extraction Tool")
     parser.add_argument("source", help="URL or path to PDF file")
     parser.add_argument("--type", choices=["web", "wiki", "pdf", "auto"], default="auto", help="Source type")
     parser.add_argument("--output", help="Output file path (default: stdout)")
+    parser.add_argument("--config", help="Path to config yaml file")
     
     args = parser.parse_args()
+    config = Config(args.config)
     
     # Simple auto-detection
     source_type = args.type
@@ -25,11 +28,11 @@ def main():
 
     try:
         if source_type == "web":
-            extractor = WebExtractor()
+            extractor = WebExtractor(config)
         elif source_type == "wiki":
-            extractor = WikiExtractor()
+            extractor = WikiExtractor(config)
         else:
-            extractor = PDFExtractor()
+            extractor = PDFExtractor(config)
 
         doc = extractor.extract(args.source)
         

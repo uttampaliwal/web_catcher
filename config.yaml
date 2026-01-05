@@ -1,0 +1,14 @@
+# Web Catcher Configuration
+
+web:
+  favor_recall: true
+  include_comments: false
+  include_tables: true
+
+wiki:
+  user_agent: "WebCatcher/1.0 (https://github.com/uttam/web_catcher)"
+  language: "en"
+
+pdf:
+  extract_images: true
+  detect_tables: true

@@ -1,6 +1,6 @@
 import pytest
-from extractors.web import WebExtractor
-from models import Document, Segment
+from src.extractors.web import WebExtractor
+from src.models import Document, Segment
 
 def test_web_extractor_init():
     extractor = WebExtractor()
@@ -12,7 +12,11 @@ def test_web_extractor_extract_success(mocker, mock_trafilatura, mock_trafilatur
     mock_trafilatura_extract.return_value = "Test Title\n\nThis is a test paragraph.\n\nAnother paragraph."
     
     # Mock metadata extraction
-    mocker.patch("trafilatura.extract_metadata", return_value=mocker.Mock(title="Test Title", author="Test Author", date="2024-01-01"))
+    mock_meta = mocker.Mock()
+    mock_meta.title = "Test Title"
+    mock_meta.author = "Test Author"
+    mock_meta.date = "2024-01-01"
+    mocker.patch("trafilatura.extract_metadata", return_value=mock_meta)
     
     extractor = WebExtractor()
     doc = extractor.extract(url)
