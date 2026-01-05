@@ -4,6 +4,7 @@ import json
 from src.extractors.web import WebExtractor
 from src.extractors.wiki import WikiExtractor
 from src.extractors.pdf import PDFExtractor
+from src.extractors.grokipedia import GrokipediaExtractor
 from src.config import Config
 
 def main():
@@ -23,6 +24,8 @@ def main():
             source_type = "pdf"
         elif "wikipedia.org" in args.source:
             source_type = "wiki"
+        elif "grokipedia.com" in args.source:
+            source_type = "grokipedia"
         else:
             source_type = "web"
 
@@ -31,6 +34,8 @@ def main():
             extractor = WebExtractor(config)
         elif source_type == "wiki":
             extractor = WikiExtractor(config)
+        elif source_type == "grokipedia":
+            extractor = GrokipediaExtractor(config)
         else:
             extractor = PDFExtractor(config)
 

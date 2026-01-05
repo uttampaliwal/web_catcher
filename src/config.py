@@ -15,6 +15,10 @@ DEFAULT_CONFIG = {
     "pdf": {
         "extract_images": True,
         "detect_tables": True
+    },
+    "grokipedia": {
+        "clean_fact_checked": True,
+        "clean_loading_edits": True
     }
 }
 
