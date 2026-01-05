@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "title": "",
+    "author": "Evangelos Vlachogiannis",
+    "date": null,
+    "url": null,
+    "source_type": "pdf",
+    "additional": {
+      "page_count": "1",
+      "format": "PDF 1.4"
+    }
+  },
+  "segments": [
+    {
+      "type": "text",
+      "content": "Dummy PDF file",
+      "metadata": {
+        "page": "1",
+        "block_no": "0"
+      }
+    }
+  ]
+}
