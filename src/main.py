@@ -2,7 +2,7 @@ import sys
 import argparse
 import json
 from src.extractors.web import WebExtractor
-from src.extractors.wiki import WikiExtractor
+from src.extractors.wikipedia_extractor import WikipediaExtractor
 from src.extractors.pdf import PDFExtractor
 from src.extractors.grokipedia import GrokipediaExtractor
 from src.config import Config
@@ -33,7 +33,7 @@ def main():
         if source_type == "web":
             extractor = WebExtractor(config)
         elif source_type == "wiki":
-            extractor = WikiExtractor(config)
+            extractor = WikipediaExtractor(config)
         elif source_type == "grokipedia":
             extractor = GrokipediaExtractor(config)
         else:
